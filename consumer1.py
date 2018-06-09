@@ -3,7 +3,7 @@ import multiprocessing
  
 from kafka import KafkaConsumer, TopicPartition
 import json
-from dashboard.models import Transactions
+from dashboard.models import Transaction
 from datetime import datetime
 from mongoengine import connect
 connect('dbtransactions')
@@ -21,7 +21,7 @@ class Consumer(multiprocessing.Process):
         user_id = int(data['id'])
         date = datetime.strptime(data['date'],'%d%b%Y')
         amount = float(data['amount']) if data['type'] is 'D' else -float(data['amount'])
-        Transactions(
+        Transaction(
             user=user_id,
             date=date,
             amount=amount

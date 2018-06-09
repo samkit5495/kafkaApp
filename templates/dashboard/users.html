@@ -1,0 +1,53 @@
+{% extends 'dashboard/index.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+    Users
+{% endblock %}
+
+{% block header %}
+    Users
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        <i class="fa fa-fw fa-user"></i> Users
+    </li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-table"></i> Users
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Details</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.user }}</td>
+                            <td><a href="{% url 'userDetails' user.user %}">Details</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted"></div>
+    </div>
+{% endblock %}

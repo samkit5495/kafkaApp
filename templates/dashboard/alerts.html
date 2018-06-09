@@ -1,0 +1,66 @@
+{% extends 'dashboard/index.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Alerts
+{% endblock %}
+
+{% block header %}
+Alerts
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active">
+    <i class="fa fa-fw fa-user"></i> Alerts
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Alerts
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Date</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Alert</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Date</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Alert</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr>
+                        <td>{{ t.user }}</td>
+                        <td>{{ t.date }}</td>
+                        {% if t.amount > 0 %}
+                        <td>{{ t.amount }}</td>
+                        <td></td>
+                        {% else %}
+                        <td></td>
+                        <td>{{ t.amount }}</td>
+                        {% endif %}
+                        <td>{{t.alert}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted"></div>
+</div>
+{% endblock %}
