@@ -1,6 +1,8 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from mongoengine import *
+from datetime import datetime
 
-from django.db import models
 
-# Create your models here.
+class Transactions(Document):
+    user = IntField(required=True)
+    date = DateTimeField(required=True)
+    amount = FloatField(required=True)
