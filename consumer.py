@@ -43,19 +43,17 @@ def cal_avg_txn_amount(user_id):
 		return 0
 
 
-def cal_avg_monthly_txn_amount(user_id):
-	avg_monthly_txn_amount_pipeline = [
+def cal_avg_monthly_bal_amount(user_id):
+	avg_monthly_bal_amount_pipeline = [
 	    {
 	        '$group':{
 	            '_id':{
                         'user':'$user',
                         'month':{'$month': '$date'}
                         },
-                    'avgTxn':{
-                        '$avg':{
-                            '$abs':'$amount'
+                    'monthlyBal':{
+                        '$sum':'$amount'
                         }
-                    }
 	        }
 	    },
             {
@@ -67,8 +65,9 @@ def cal_avg_monthly_txn_amount(user_id):
 	     }
 	]
 	try:
-		avg_monthly_txn_amount = list(Transaction.objects.aggregate(*avg_monthly_txn_amount_pipeline))[0]['avgTxn']
-		return avg_monthly_txn_amount
+		monthly_bal = [i['monthlyBal'] for i in list(Transaction.objects.aggregate(*avg_monthly_bal_amount_pipeline))]
+		avg_monthly_bal_amount = sum(monthly_bal)/len(monthly_bal)
+		return avg_monthly_bal_amount
 	except:
 		return 0
 
@@ -82,7 +81,7 @@ def calculate_standard_deviation(user_id):
 def consumerTask(data):
 	user_id = int(data['id'])
 	date = datetime.strptime(data['date'],'%d%b%Y')
-	amount = float(data['amount']) if data['type'] == u'C' else -float(data['amount'])
+	amount = float(data['amount']) if data['type'] == u'D' else -float(data['amount'])
 	# Maintain a total balance,
 	balance_amount = Transaction.objects(user=user_id).sum('amount')
 	#  average transaction amount,
@@ -90,7 +89,7 @@ def consumerTask(data):
 	# standard deviation of transaction amount
 	standard_deviation = calculate_standard_deviation(user_id)
 	#  Average monthly balance.
-	avg_monthly_balance = cal_avg_monthly_txn_amount(user_id)
+	avg_monthly_balance = cal_avg_monthly_bal_amount(user_id)
 	alert = abs(amount) > 2 * standard_deviation 
 	# Maintain transaction log for each and every user.
 	Transaction(
