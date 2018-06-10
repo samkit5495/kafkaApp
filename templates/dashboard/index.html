@@ -167,7 +167,7 @@
                                     <tbody>
                                         {% for r in latestTransactions %}
                                         <tr>
-                                            <td>{{ r.user }}</td>
+                                            <td>{{ r.user.user_id }}</td>
                                             <td>{{ r.date }}</td>
                                             {% if r.amount > 0 %}
                                             <td>{{ r.amount }}</td>

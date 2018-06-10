@@ -4,10 +4,10 @@ from datetime import datetime
 
 class User(Document):
     user_id = IntField(required=True)
-    balance = FloatField(required=True)
-    avg_transaction_amount = FloatField(required=True)
-    stdev = FloatField(required=True)
-    avg_monthly_balance = FloatField(required=True)
+    balance = FloatField()
+    avg_transaction_amount = FloatField()
+    stdev = FloatField()
+    avg_monthly_balance = FloatField()
 
     
 class Transaction(Document):

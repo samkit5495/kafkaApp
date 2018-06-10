@@ -46,7 +46,7 @@ Transactions
                 <tbody>
                     {% for t in transactions %}
                     <tr>
-                        <td>{{ t.user }}</td>
+                        <td>{{ t.user.user_id }}</td>
                         <td>{{ t.date }}</td>
                         {% if t.amount > 0 %}
                         <td>{{ t.amount }}</td>

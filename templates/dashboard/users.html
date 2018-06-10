@@ -3,54 +3,63 @@
 
 
 {% block title %}
-    Users
+Users
 {% endblock %}
 
 {% block header %}
-    Users
+Users
 {% endblock %}
 
 {% block breadcrumb %}
-    <li class="breadcrumb-item active">
-        <i class="fa fa-fw fa-user"></i> Users
-    </li>
+<li class="breadcrumb-item active">
+    <i class="fa fa-fw fa-user"></i> Users
+</li>
 {% endblock %}
 
 {% block content %}
 
-    <div class="card mb-3">
-        <div class="card-header">
-            <i class="fa fa-table"></i> Users
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Balance</th>
-                        <th>Details</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Balance</th>
-                        <th>Details</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    {% for user in users %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.accountBalance }}</td>
-                            <td><a href="{% url 'userDetails' user.id %}">Details</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-footer small text-muted"></div>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Users
     </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Balance</th>
+                        <th>Avg Transaction Amount</th>
+                        <th>Standard Deviation</th>
+                        <th>Avg Monthly Balance</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Balance</th>
+                        <th>Avg Transaction Amount</th>
+                        <th>Standard Deviation</th>
+                        <th>Avg Monthly Balance</th>
+                        <th>Details</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.balance }}</td>
+                        <td>{{ user.avg_transaction_amount }}</td>
+                        <td>{{ user.stdev }}</td>
+                        <td>{{ user.avg_monthly_balance }}</td>
+                        <td><a href="{% url 'userDetails' user.user_id %}">Details</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted"></div>
+</div>
 {% endblock %}
