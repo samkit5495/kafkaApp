@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load mathfilters %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +24,12 @@
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="{% url 'dashboard' %}"> Kafka App </a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Toggle navigation">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" href="{% url 'dashboard' %}"> Kafka App </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -51,10 +53,10 @@
                 </a>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Alerts">
-              <a class="nav-link" href="{% url 'alerts' %}">
-                <i class="fa fa-fw fa-exclamation-circle"></i>
-                <span class="nav-link-text">Alerts</span>
-              </a>
+                <a class="nav-link" href="{% url 'alerts' %}">
+                    <i class="fa fa-fw fa-exclamation-circle"></i>
+                    <span class="nav-link-text">Alerts</span>
+                </a>
             </li>
         </ul>
         <ul class="navbar-nav sidenav-toggler">
@@ -67,7 +69,7 @@
     </div>
 </nav>
 <div class="content-wrapper">
-
+    
     <div class="container-fluid">
         <!-- Breadcrumbs-->
         <!-- Page Heading -->
@@ -75,34 +77,34 @@
             <div class="col-md-12">
                 <h1 class="page-header">
                     {% block header %}Dashboard
-                        <small>Statistics Overview</small>{% endblock %}
+                    <small>Statistics Overview</small>{% endblock %}
                 </h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <i class="fa fa-home"></i> <a href="{% url 'dashboard' %}">Dasboard</a>
                     </li>
                     {% block breadcrumb %}
-
+                    
                     {% endblock %}
                 </ol>
             </div>
         </div>
-
+        
         {% block content %}
-
-            <!-- Icon Cards-->
-            <div class="row">
-                <div class="col-xl-4 col-sm-6 mb-4">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                        <div class="card-body">
-                            <div class="mr-5"><h4>Users</h4>
-                                <h3 class="pull-right">{{ usersCount }} </h3></div>
+        
+        <!-- Icon Cards-->
+        <div class="row">
+            <div class="col-xl-4 col-sm-6 mb-4">
+                <div class="card text-white bg-primary o-hidden h-100">
+                    <div class="card-body">
+                        <div class="mr-5"><h4>Users</h4>
+                            <h3 class="pull-right">{{ usersCount }} </h3></div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" href="{% url 'users' %}">
                             <span class="float-left">View Details</span>
                             <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
+                                <i class="fa fa-angle-right"></i>
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -111,109 +113,118 @@
                         <div class="card-body">
                             <div class="mr-5"><h4>Total Transactions</h4>
                                 <h3 class="pull-right">{{ transactionsCount }} </h3></div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="{% url 'transactions' %}">
+                                <span class="float-left">View Details</span>
+                                <span class="float-right">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <span class="float-left">View Details</span>
-                            <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-                        </a>
                     </div>
-                </div>
-                <div class="col-xl-4 col-sm-6 mb-4">
-                    <div class="card text-white bg-warning o-hidden h-100">
+                    <div class="col-xl-4 col-sm-6 mb-4">
+                        <div class="card text-white bg-warning o-hidden h-100">
+                            <div class="card-body">
+                                <div class="mr-5"><h4>Alerts</h4>
+                                    <h3 class="pull-right">{{ alertsCount }} </h3></div>
+                                </div>
+                                <a class="card-footer text-white clearfix small z-1" href="{% url 'alerts' %}">
+                                    <span class="float-left">View Details</span>
+                                    <span class="float-right">
+                                        <i class="fa fa-angle-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Example DataTables Card-->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-table"></i> Latest Transactions
+                        </div>
                         <div class="card-body">
-                            <div class="mr-5"><h4>Alerts</h4>
-                                <h3 class="pull-right">{{ alertsCount }} </h3></div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Date</th>
+                                            <th>Credit</th>
+                                            <th>Debit</th>
+                                            <th>Alert</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Date</th>
+                                            <th>Credit</th>
+                                            <th>Debit</th>
+                                            <th>Alert</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {% for r in latestTransactions %}
+                                        <tr>
+                                            <td>{{ r.user }}</td>
+                                            <td>{{ r.date }}</td>
+                                            {% if r.amount > 0 %}
+                                            <td>{{ r.amount }}</td>
+                                            <td></td>
+                                            {% else %}
+                                            <td></td>
+                                            <td>{{ r.amount|abs }}</td>
+                                            {% endif %}
+                                            <td>{{ r.alert }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" href="#">
-                            <span class="float-left">View Details</span>
-                            <span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-                        </a>
+                        <div class="card-footer small text-muted">Updated at {{ now }}</div>
                     </div>
+                    {% endblock %}
+                    
                 </div>
-            </div>
-
-            <!-- Example DataTables Card-->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fa fa-table"></i> Latest Transactions
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Alert</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>User</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Alert</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            {% for r in latestTransactions %}
-                                <tr>
-                                    <td>{{ r.user }}</td>
-                                    <td>{{ r.date }}</td>
-                                    <td>{{ r.amount }}</td>
-                                    <td>{{ r.alert }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                <!-- /.container-fluid-->
+                
+                <!-- /.content-wrapper-->
+                <footer class="sticky-footer">
+                    <div class="container">
+                        <div class="text-center">
+                            <small>Copyright © Kafka App 2018</small>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer small text-muted">Updated at {{ now }}</div>
+                </footer>
+                <!-- Scroll to Top Button-->
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fa fa-angle-up"></i>
+                </a>
+                <!-- Logout Modal-->
+                
+                <!-- Bootstrap core JavaScript-->
+                <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+                <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+                <!-- Core plugin JavaScript-->
+                <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+                <!-- Page level plugin JavaScript-->
+                <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
+                <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+                <!-- Custom scripts for all pages-->
+                <script src="{% static 'js/sb-admin.min.js' %}"></script>
+                <!-- Custom scripts for this page-->
+                <script src="{% static 'js/sb-admin-datatables.min.js' %}"></script>
+                
+                {% block script %}
+                
+                <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+                <script src="{% static 'js/sb-admin-charts.min.js' %}"></script>
+                
+                {% endblock %}
             </div>
-        {% endblock %}
-
-    </div>
-    <!-- /.container-fluid-->
-
-    <!-- /.content-wrapper-->
-    <footer class="sticky-footer">
-        <div class="container">
-            <div class="text-center">
-                <small>Copyright © Kafka App 2018</small>
-            </div>
-        </div>
-    </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    
-    <!-- Bootstrap core JavaScript-->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="{% static 'vendor/datatables/jquery.dataTables.js' %}"></script>
-    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.js' %}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{% static 'js/sb-admin.min.js' %}"></script>
-    <!-- Custom scripts for this page-->
-    <script src="{% static 'js/sb-admin-datatables.min.js' %}"></script>
-
-    {% block script %}
-
-        <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-        <script src="{% static 'js/sb-admin-charts.min.js' %}"></script>
-
-    {% endblock %}
-</div>
-</body>
-
-</html>
+        </body>
+        
+        </html>
+        

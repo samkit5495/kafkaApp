@@ -1,5 +1,6 @@
 {% extends 'dashboard/index.html' %}
 {% load staticfiles %}
+{% load mathfilters %}
 
 {% block title %}
 Alerts
@@ -52,7 +53,7 @@ Alerts
                         <td></td>
                         {% else %}
                         <td></td>
-                        <td>{{ t.amount }}</td>
+                        <td>{{ t.amount|abs }}</td>
                         {% endif %}
                         <td>{{t.alert}}</td>
                     </tr>
