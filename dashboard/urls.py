@@ -19,7 +19,7 @@ from dashboard import views
 urlpatterns = [
     url(r'^$', views.DashboardView.as_view(),name='dashboard'),
     url(r'^users$', views.UsersView.as_view(), name='users'),
-    url(r'^users/<str:id>$', views.UsersView().userTransactions, name='userDetails'),
+    url(r'^users/(?P<id>[\d]+)$', views.UsersView().userTransactions, name='userDetails'),
     url(r'^transactions$', views.TransactionView.as_view(), name='transactions'),
     url(r'^alerts$', views.AlertView.as_view(), name='alerts'),
 ]

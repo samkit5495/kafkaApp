@@ -3,7 +3,7 @@ import json
 
 from kafka import KafkaConsumer,KafkaProducer,TopicPartition
 import threading, time
-from dashboard.models import Transactions
+from dashboard.models import Transaction
 from datetime import datetime
 from mongoengine import connect
 connect('dbtransactions')
@@ -16,13 +16,13 @@ consumer.assign([TopicPartition('transactions',0)])
 def consumerTask(data):
 	user_id = int(data['id'])
 	date = datetime.strptime(data['date'],'%d%b%Y')
-	amount = float(data['amount']) if data['type'] is 'D' else -float(data['amount'])
-	Transactions(
+	amount = float(data['amount']) if data['type'] is u'C' else -float(data['amount'])
+	Transaction(
 		user=user_id,
 		date=date,
 		amount=amount
 		).save()
-	balance_amount = Transactions.objects(user=user_id).sum('amount')
+	balance_amount = Transaction.objects(user=user_id).sum('amount')
 	# avg_pipeline = [
 	#     {
 	#         '$project':{
@@ -41,8 +41,9 @@ def consumerTask(data):
 	#         }
 	#     }
 	# ]
-	# average_txn_amount = list(Transactions.objects.aggregate(*avg_pipeline))[0]
-	print(data.id, balance_amount)
+	# average_txn_amount = list(Transaction.objects.aggregate(*avg_pipeline))[0]
+	print(user_id, balance_amount)
 
 for message in consumer:
   	print (message)
+	consumerTask(message.value)

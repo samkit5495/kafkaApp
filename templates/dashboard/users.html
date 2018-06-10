@@ -28,20 +28,23 @@
                     <thead>
                     <tr>
                         <th>User ID</th>
+                        <th>Balance</th>
                         <th>Details</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th>User ID</th>
+                        <th>Balance</th>
                         <th>Details</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     {% for user in users %}
                         <tr>
-                            <td>{{ user.user }}</td>
-                            <td><a href="{% url 'userDetails' user.user %}">Details</a></td>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.accountBalance }}</td>
+                            <td><a href="{% url 'userDetails' user.id %}">Details</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

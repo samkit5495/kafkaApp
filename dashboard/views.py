@@ -12,7 +12,7 @@ class DashboardView(View):
     
     def get(self, request):
         return render(request, "dashboard/index.html", {
-            'usersCount': Transaction.objects.distinct('user').count('id'),
+            'usersCount': len(Transaction.objects.distinct('user')),
             'transactionsCount': Transaction.objects.count(),
             'alertsCount': Transaction.objects(alert=True).count(),
             'latestTransactions': Transaction.objects.order_by('-id').limit(20),
@@ -23,8 +23,22 @@ class DashboardView(View):
 class UsersView(View):
 
     def get(self, request):
+        pipeline = [
+            {
+                '$group':{
+                    '_id':'$user',
+                    'accountBalance':{'$sum':'$amount'}
+                }
+            },
+            {
+                '$project':{
+                    'id':'$_id',
+                    'accountBalance':'$accountBalance'
+                }
+            }
+        ]
         return render(request, "dashboard/users.html", {
-            'users': Transaction.objects.distinct('user')
+            'users': list(Transaction.objects.aggregate(*pipeline))
         })
 
     def userTransactions(self, request, id):
