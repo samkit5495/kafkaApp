@@ -11,7 +11,7 @@ https://github.com/Parsely/pykafka/blob/master/README.rst
 http://kafka-python.readthedocs.io/
 
 
-##How to Run Project:
+## How to Run Project:
 
 1. Start Zookeeper
 ```
@@ -44,6 +44,6 @@ python3 consumer.py
 python3 manage.py runserver
 ```
 
-###Note:
+### Note:
 
 Refer consumer.py for consumer and others tried examples are in consumer folder
